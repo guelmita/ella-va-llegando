@@ -1,0 +1,59 @@
+---
+layout: base.njk
+pagina: escritos
+---
+{% set titulo = title %}
+{% set descripcion = excerpt %}
+
+<article class="escrito-cabecera">
+  <p class="categoria">{{ category }}</p>
+  <h1>{{ title }}</h1>
+  <p class="fecha">{{ date | fechaBonita }}</p>
+</article>
+
+{% if image %}
+<div class="escrito-foto">
+  <img src="{{ image }}" alt="{{ image_caption or title }}" style="width:100%;height:100%;object-fit:cover">
+</div>
+{% endif %}
+
+<div class="escrito-cuerpo">
+  {{ content | safe }}
+
+  <div class="firma">
+    <div class="signo"><span class="s1" style="width:3px;height:3px"></span><span class="s2" style="width:5px;height:5px"></span><span class="s3" style="width:7px;height:7px"></span></div>
+    <p>Ella va llegando</p>
+  </div>
+
+  <div class="acciones">
+    <a href="#" onclick="if(navigator.share){navigator.share({title:'{{ title }}',url:location.href});return false;}">Compartir</a>
+    <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+    <a href="#" data-copiar-enlace>Copiar enlace</a>
+  </div>
+</div>
+
+<nav class="paginacion">
+  {% if anterior %}
+  <a href="/escritos/{{ anterior.fileSlug }}/">
+    <span class="rotulo">← Anterior</span>
+    <span class="titulo">{{ anterior.data.title }}</span>
+  </a>
+  {% else %}<span></span>{% endif %}
+  {% if siguiente %}
+  <a class="siguiente" href="/escritos/{{ siguiente.fileSlug }}/">
+    <span class="rotulo">Siguiente →</span>
+    <span class="titulo">{{ siguiente.data.title }}</span>
+  </a>
+  {% endif %}
+</nav>
+
+<script>
+  document.querySelectorAll('[data-copiar-enlace]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      navigator.clipboard.writeText(location.href);
+      el.textContent = 'Enlace copiado';
+      setTimeout(function () { el.textContent = 'Copiar enlace'; }, 1800);
+    });
+  });
+</script>

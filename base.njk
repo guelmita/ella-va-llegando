@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if titulo %}{{ titulo }} — Ella va llegando{% else %}Ella va llegando — Escritos, cartas y canciones{% endif %}</title>
+<meta name="description" content="{{ descripcion or 'No estás tarde. Estás llegando. Escritos íntimos para quienes todavía están llegando a la vida que imaginaron.' }}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231C1A17'/%3E%3Ctext x='33' y='45' font-family='Georgia, serif' font-style='italic' font-size='38' fill='%23C08A5A' text-anchor='middle'%3Ee%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..600;1,6..72,200..500&family=Karla:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="marca" href="/">Ella va llegando</a>
+  <nav class="nav">
+    <a href="/" {% if pagina == 'home' %}aria-current="page"{% endif %}>Home</a>
+    <a href="/escritos/" {% if pagina == 'escritos' %}aria-current="page"{% endif %}>Escritos</a>
+    <a href="/cartas/" {% if pagina == 'cartas' %}aria-current="page"{% endif %}>Cartas</a>
+    <a href="/sobre/" {% if pagina == 'sobre' %}aria-current="page"{% endif %}>Sobre</a>
+  </nav>
+</header>
+
+<main>
+{{ content | safe }}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="signo"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+      <p class="footer-marca">Ella va llegando</p>
+      <p class="footer-desc">Un lugar para quienes todavía están llegando.</p>
+    </div>
+    <div>
+      <p class="footer-kicker">Suscripción</p>
+      <h4>Recibe cada escrito nuevo en tu correo.</h4>
+      <form class="form-suscripcion footer" name="suscripcion-footer" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="suscripcion-footer">
+        <input type="email" name="correo" placeholder="tu correo" required>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+    <div class="footer-links">
+      <p class="footer-kicker">Secciones</p>
+      <a href="/">Home</a>
+      <a href="/escritos/">Escritos</a>
+      <a href="/cartas/">Cartas</a>
+      <a href="/sobre/">Sobre</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© {{ anioActual }} Ella va llegando</span>
+    <span>Instagram · Facebook</span>
+  </div>
+</footer>
+
+</body>
+</html>

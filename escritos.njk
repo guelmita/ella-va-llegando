@@ -1,0 +1,59 @@
+---
+layout: base.njk
+pagina: escritos
+titulo: Escritos
+descripcion: Todo lo publicado, en orden, del más reciente al primero.
+---
+{% import "macros.njk" as m %}
+{% set pilares = ["Todos", "Ella va llegando", "Lo que nadie ve", "Volver a empezar", "Para ti", "Canciones para...", "La vida también es esto", "Historias"] %}
+
+<section class="wrap archivo-header">
+  <p class="kicker">Archivo</p>
+  <h1>Escritos</h1>
+  <p class="archivo-intro">Todo lo publicado, en orden, del más reciente al primero.</p>
+
+  <div class="filtros" id="filtros">
+    {% for p in pilares %}
+    <button type="button" class="filtro{% if loop.first %} activo{% endif %}" data-filtro="{{ p }}">{{ p }}</button>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="wrap lista-archivo" id="lista-archivo">
+  {% for e in collections.escritos %}
+    {{ m.fila(e) }}
+  {% endfor %}
+</section>
+<p class="wrap conteo" id="conteo"></p>
+
+<script>
+(function () {
+  var botones = document.querySelectorAll('#filtros .filtro');
+  var filas = document.querySelectorAll('#lista-archivo .fila-escrito');
+  var conteo = document.getElementById('conteo');
+
+  function aplicar(cat) {
+    var visibles = 0;
+    filas.forEach(function (fila) {
+      var coincide = cat === 'Todos' || fila.getAttribute('data-categoria') === cat;
+      fila.style.display = coincide ? '' : 'none';
+      if (coincide) visibles++;
+    });
+    botones.forEach(function (b) {
+      b.classList.toggle('activo', b.getAttribute('data-filtro') === cat);
+    });
+    conteo.textContent = visibles + (visibles === 1 ? ' escrito' : ' escritos');
+    var url = new URL(location.href);
+    if (cat === 'Todos') { url.searchParams.delete('cat'); } else { url.searchParams.set('cat', cat); }
+    history.replaceState(null, '', url);
+  }
+
+  botones.forEach(function (b) {
+    b.addEventListener('click', function () { aplicar(b.getAttribute('data-filtro')); });
+  });
+
+  var params = new URLSearchParams(location.search);
+  var inicial = params.get('cat') || 'Todos';
+  aplicar(inicial);
+})();
+</script>
